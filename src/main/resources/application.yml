@@ -1,0 +1,49 @@
+server:
+  port: 9500
+  compression:
+    enabled: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+  circuitbreaker:
+    enabled: true
+    alphanumeric-ids:
+      enabled: true
+
+spring:
+  profiles:
+    active: ${APP_PROFILE:dev}
+  jackson:
+    mapper:
+      DEFAULT_VIEW_INCLUSION: true
+  config:
+    import: configserver:http://localhost:8888/?fail-fast=true&max-attempts=60&max-interval=10000&initial-interval=1000
+  application:
+    name: annotation
+  datasource:
+    tomcat:
+      max-active: 5
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 5
+  flyway:
+    enabled: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        - '*'
+authorization:
+  jwt-secret: ${SECRET}
+  security-https: true
