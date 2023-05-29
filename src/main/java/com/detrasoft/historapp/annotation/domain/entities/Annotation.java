@@ -52,6 +52,6 @@ public class Annotation extends AuditedGenericEntity implements Serializable {
     @Column(name = "locale_id")
     private List<Long> eventsIds;
 
-    @OneToMany(mappedBy = "annotation", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "annotation", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<Comment>();
 }

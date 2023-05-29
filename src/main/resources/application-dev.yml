@@ -7,3 +7,5 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+authorization:
+  enable-origin-control: true

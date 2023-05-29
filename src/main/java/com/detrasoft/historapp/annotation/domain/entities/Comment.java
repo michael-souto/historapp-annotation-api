@@ -34,6 +34,8 @@ public class Comment extends GenericEntity implements Serializable {
     @Column(nullable = false)
     private String text;
 
+    private String textReference;
+
     private Long indexReference;
 
     private Long lengthReference;

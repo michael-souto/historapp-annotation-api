@@ -52,7 +52,9 @@ public class AnnotationCRUDService extends GenericCRUDService<Annotation> {
         return annotationFound;
     }
     protected void beforeSave(Annotation entity) {
-
+        if (entity.getComments() != null && entity.getComments().size() > 0) {
+            entity.getComments().forEach(x-> x.setAnnotation(entity));
+        }
     }
 
     @Override

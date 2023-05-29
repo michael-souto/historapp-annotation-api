@@ -23,6 +23,10 @@ public class CommentDTO extends GenericRepresentationModelDTO<CommentDTO> {
     @JsonView({ResponseView.findAndPersist.class })
     private String text;
 
+    @NotBlank
+    @JsonView({ResponseView.findAndPersist.class })
+    private String textReference;
+
     @JsonView({ResponseView.findAndPersist.class })
     private Long indexReference;
 

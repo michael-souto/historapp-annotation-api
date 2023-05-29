@@ -4,6 +4,7 @@ import com.detrasoft.framework.api.dto.converters.GenericRepresentationModelDTOA
 import com.detrasoft.historapp.annotation.api.controllers.AnnotationController;
 import com.detrasoft.historapp.annotation.domain.dtos.*;
 import com.detrasoft.historapp.annotation.domain.entities.Annotation;
+import com.detrasoft.historapp.annotation.domain.entities.Comment;
 import com.detrasoft.historapp.annotation.domain.services.client.character.CharacterClientService;
 import com.detrasoft.historapp.annotation.domain.services.client.event.EventClientService;
 import com.detrasoft.historapp.annotation.domain.services.client.locale.LocaleClientService;
@@ -75,19 +76,31 @@ public class AnnotationAssembler extends GenericRepresentationModelDTOAssembler<
     }
 
     @Override
-    protected void copyDtoToEntity(AnnotationDTO dto, Annotation event) {
-        super.copyDtoToEntity(dto, event);
+    protected void copyDtoToEntity(AnnotationDTO dto, Annotation annotation) {
+        super.copyDtoToEntity(dto, annotation);
+
+        if (dto.getComments() != null && dto.getComments().size() > 0) {
+            annotation.setComments(dto.getComments().stream().map(
+                    x -> Comment.builder()
+                            .id(x.getId())
+                            .text(x.getText())
+                            .indexReference(x.getIndexReference())
+                            .lengthReference(x.getLengthReference())
+                            .textReference(x.getTextReference())
+                            .build()
+            ).toList());
+        }
 
         if (dto.getCharacters() != null && dto.getCharacters().size() > 0) {
-            event.setCharactersIds(dto.getCharacters().stream().map(CharacterDTO::getId).toList());
+            annotation.setCharactersIds(dto.getCharacters().stream().map(CharacterDTO::getId).toList());
         }
 
         if (dto.getLocales() != null && dto.getLocales().size() > 0) {
-            event.setLocalesIds(dto.getLocales().stream().map(LocaleDTO::getId).toList());
+            annotation.setLocalesIds(dto.getLocales().stream().map(LocaleDTO::getId).toList());
         }
 
         if (dto.getEvents() != null && dto.getEvents().size() > 0) {
-            event.setEventsIds(dto.getEvents().stream().map(EventDTO::getId).toList());
+            annotation.setEventsIds(dto.getEvents().stream().map(EventDTO::getId).toList());
         }
     }
 }
