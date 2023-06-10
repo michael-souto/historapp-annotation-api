@@ -49,7 +49,7 @@ public class Annotation extends AuditedGenericEntity implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "events_annotation", joinColumns = @JoinColumn(name = "annotation_id", foreignKey = @ForeignKey(name = "fk1_events_annotation")))
-    @Column(name = "locale_id")
+    @Column(name = "event_id")
     private List<Long> eventsIds;
 
     @OneToMany(mappedBy = "annotation", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
